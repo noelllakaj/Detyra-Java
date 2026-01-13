@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -107,30 +108,43 @@ public class Main {
 	        e.printStackTrace();
 	    }
 	}
+	
+	
 	private static void loadTiles(BufferedImage[] images) {
 
-	    File folder = new File("C:\\Users\\Krisa\\Desktop\\tiles");
-	    File[] files = folder.listFiles();
+	    try {
+	        // Load Tiles folder from resources
+	        URL url = Main.class.getClassLoader().getResource("Tiles");
 
-	    if (files == null) {
-	        System.out.println("Folder not found!");
-	        return;
-	    }
+	        if (url == null) {
+	          //  System.out.println("Tiles folder not found in resources!");
+	            return;
+	        }
 
-	    int index = 0;
+	        File folder = new File(url.toURI());
+	        File[] files = folder.listFiles();
 
-	    for (File f : files) {
-	        if (f.getName().toLowerCase().endsWith(".png")) {
-	            try {
+	        if (files == null) {
+	          //  System.out.println("No files in Tiles folder!");
+	            return;
+	        }
+
+	        int index = 0;
+
+	        for (File f : files) {
+	            if (f.getName().toLowerCase().endsWith(".png")) {
 	                images[index++] = ImageIO.read(f);
 	                System.out.println("Loaded: " + f.getName());
+
 	                if (index >= images.length) break;
-	            } catch (IOException e) {
-	                System.out.println("Failed to read: " + f.getName());
 	            }
 	        }
-	    }
 
-	    System.out.println("Loaded " + index + " tiles.");
+	       // System.out.println("Loaded " + index + " tiles.");
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
+
 }
