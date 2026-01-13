@@ -43,7 +43,7 @@ public class Main {
 		for(int i = 0 ; i < mapX ; i++) {
 			for(int j = 0 ; j < mapY; j++) {
 				id = rand.nextInt(50);
-				if(id<3 && map[i][j][1]!=1)
+				if(id<Food.path.length && map[i][j][1]!=1)
 				food[i][j] = new Food(id);
 			}
 		}

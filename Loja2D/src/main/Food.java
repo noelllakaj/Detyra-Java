@@ -6,8 +6,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Food {
-	String name[] = {"Green Apple","Red Apple","Yellow Apple"};
-	String path[] = {"/Food/greenApple.png","/Food/redApple.png","/Food/yellowApple.png"};
+	String name[] = {"Green Apple","Red Apple","Yellow Apple","Blueberries","Lemon","Cherries","Grape","Pineapple"};
+	static String path[] = {"/Food/greenApple.png","/Food/redApple.png","/Food/yellowApple.png",
+					 "/Food/blueberries.png","/Food/lemon.png","/Food/cherries.png","/Food/grape.png",
+					 "/Food/pineapple.png"};
 	int id;
 
 	BufferedImage sprite;
@@ -17,6 +19,7 @@ public class Food {
 		try {
 			this.sprite = ImageIO.read(getClass().getResourceAsStream(path[id]));
 		} catch (IOException e) {
+			System.out.print("negroo");
 			e.printStackTrace();
 		}
 	}
