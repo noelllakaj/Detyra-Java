@@ -40,10 +40,10 @@ public class Main {
 		player.getObstacles(map);
 		Random rand = new Random();
 		int id;
-		for(int i = 5 ; i < mapX-5 ; i++) {
-			for(int j = 5 ; j < mapY-5; j++) {
+		for(int i = 0 ; i < mapX ; i++) {
+			for(int j = 0 ; j < mapY; j++) {
 				id = rand.nextInt(50);
-				if(id<3)
+				if(id<3 && map[i][j][1]!=1)
 				food[i][j] = new Food(id);
 			}
 		}
