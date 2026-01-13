@@ -71,17 +71,44 @@ public class Player extends Entity{
 
 	
 	public void lerp() {
-		Vector2 relativePosition = new Vector2();
-		
-		relativePosition.setEqual(this.targetPosition.sub(this.position));
-		this.position.setEqual(relativePosition.multiplyC(0.07).add(this.position));
+
+	    Vector2 direction = targetPosition.sub(position);
+	    float distance = (float) direction.magnitude();
+
+	    if (distance == 0)
+	        return;
+
+	    float speed = 0.5f; // units per frame (CHANGE THIS)
+
+	    if (distance <= speed) {
+	        position.setEqual(targetPosition);
+	        return;
+	    }
+
+	    direction.normalize();
+	    position.setEqual(position.add(direction.multiplyC(speed)));
 	}
+
 	
 	public void move(KeyHandler keyHandler) {
-		boolean temp;
-		temp=!(this.targetPosition.sub(this.position).magnitude2()>2 &&health >0);
 		
-		super.walking = keyHandler.pressedA ||  keyHandler.pressedW || keyHandler.pressedD|| keyHandler.pressedS;
+		if(health<=0) {
+			super.idle=false;
+			super.walking = false;
+			super.death = true;
+			return;
+		}
+		
+		boolean temp;
+		temp=!(this.targetPosition.sub(this.position).magnitude2()>2);
+		
+		
+		
+		super.walking = keyHandler.pressedA 
+						|| keyHandler.pressedW 
+						|| keyHandler.pressedD
+						|| keyHandler.pressedS
+						|| !temp;
 		
 		if(keyHandler.pressedA && this.gridPosition.x>0 && temp) {
 			if(!obstacles[(int)this.gridPosition.x-1][(int)this.gridPosition.y]) {
@@ -128,7 +155,6 @@ public class Player extends Entity{
 			super.idle = true;
 			return;
 			}
-			super.death=true;
 	}
 	
 	public void interact(KeyHandler keyH,Food[][] foodMap) {

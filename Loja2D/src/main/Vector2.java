@@ -72,4 +72,13 @@ public class Vector2 {
 		return this.x*this.x+this.y*this.y;
 	}
 	
+	public double magnitude() {
+		return Math.sqrt(this.x*this.x+this.y*this.y);
+	}
+	public void normalize() {
+		double length = this.magnitude();
+		this.x = this.x/length;
+		this.y = this.y/length;
+	}
+	
 }

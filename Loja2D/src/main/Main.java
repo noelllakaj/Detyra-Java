@@ -4,8 +4,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Random;
 
@@ -23,7 +24,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		int[][][] map = new int[mapX][mapY][2];	
-		loadMapFromText("C:\\Users\\Krisa\\Desktop\\map.txt", map);
+		loadMapFromText("map.txt", map);
 		BufferedImage[] tiles = new BufferedImage[128];
 		loadTiles(tiles);
 		
@@ -55,11 +56,9 @@ public class Main {
 		    player.move(keyH);
 		    player.interact(keyH,food);
 		    player.lerp();
-		   // camera.drawMap(image,map,tileSize);
 		    camera.renderMap(image, tiles, map);
 		    camera.renderPlayer(image, player);
 		    camera.renderFood(image, food);
-		   // camera.drawLine(image);
 		    g.drawImage(image,0,0,null);
 		    
 		}
@@ -73,11 +72,21 @@ public class Main {
 		frame.setFocusable(true);
 		return frame;
 	}
-	public static void loadMapFromText(String filePath, int[][][] targetMap) {
-	    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+	public static void loadMapFromText(String resourcePath, int[][][] targetMap) {
+
+	    InputStream is = Main.class
+	            .getClassLoader()
+	            .getResourceAsStream(resourcePath);
+
+	    if (is == null) {
+	        throw new RuntimeException("Resource not found: " + resourcePath);
+	    }
+
+	    try (BufferedReader reader =
+	                 new BufferedReader(new InputStreamReader(is))) {
 
 	        // Read map size header
-	        String[] size = reader.readLine().split(" ");
+	        String[] size = reader.readLine().trim().split(" ");
 	        int fileMapX = Integer.parseInt(size[0]);
 	        int fileMapY = Integer.parseInt(size[1]);
 
@@ -94,7 +103,7 @@ public class Main {
 	            reader.readLine(); // skip "--LAYER x--"
 
 	            for (int y = 0; y < fileMapY; y++) {
-	                String[] values = reader.readLine().trim().split(" ");
+	                String[] values = reader.readLine().trim().split("\\s+");
 
 	                for (int x = 0; x < fileMapX; x++) {
 	                    targetMap[x][y][layer] = Integer.parseInt(values[x]);
@@ -102,13 +111,13 @@ public class Main {
 	            }
 	        }
 
-	        System.out.println("Map loaded into array successfully!");
+	      //  System.out.println("Map loaded into array successfully!");
 
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	}
-	
+
 	
 	private static void loadTiles(BufferedImage[] images) {
 
@@ -134,7 +143,7 @@ public class Main {
 	        for (File f : files) {
 	            if (f.getName().toLowerCase().endsWith(".png")) {
 	                images[index++] = ImageIO.read(f);
-	                System.out.println("Loaded: " + f.getName());
+	              //  System.out.println("Loaded: " + f.getName());
 
 	                if (index >= images.length) break;
 	            }

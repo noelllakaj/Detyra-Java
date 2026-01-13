@@ -64,7 +64,7 @@ public class Camera2D {
 		imageGraphics.drawImage(player.getCurrentFrame(), (int)playerScreenPosition.x-16, (int)playerScreenPosition.y-16, null);
 
 		imageGraphics.dispose();
-		System.out.println(player.idle+" "+ player.walking + " " + player.idleCFPF +" "+ player.walkingCFPF);
+		//System.out.println(player.idle+" "+ player.walking + " "+player.death+" " + player.idleCFPF +" "+ player.walkingCFPF);
 	}
 	
 	public void drawLine(BufferedImage image) {
