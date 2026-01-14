@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Player extends Entity{
-	int health=5;
+	
 	Vector2 position = new Vector2();
 	Vector2 gridPosition = new Vector2();
 	Vector2 targetPosition = new Vector2();
@@ -14,8 +14,12 @@ public class Player extends Entity{
 	boolean[][] obstacles;
 	Food[] foodInv = new Food[5];
 	
+	public int maxHealth = 5;   // maksimumi i zemrave
+	public double health = 5;   // fillon plot
+
+	
 	public Player(Vector2 position,int tileSize,int mapX,int mapY) {
-		this.health = 3;
+		this.health = 5;
 		this.position.setEqual(position);
 		this.targetPosition.setEqual(position);
 		this.gridPosition.setEqual(new Vector2((int)this.position.x/32,(int)this.position.y/32));
@@ -156,6 +160,19 @@ public class Player extends Entity{
 			return;
 			}
 	}
+	
+	// Humb një pjesë jete
+	public void loseHealth(double amount) {
+	    health -= amount;
+	    if (health < 0) health = 0;
+	}
+
+	// Fiton një pjesë jete
+	public void gainHealth(double amount) {
+	    health += amount;
+	    if (health > maxHealth) health = maxHealth;
+	}
+
 	
 	public void interact(KeyHandler keyH,Food[][] foodMap) {
 		//if E is pressed

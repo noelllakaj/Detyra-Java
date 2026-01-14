@@ -1,6 +1,8 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +22,9 @@ public class Main {
 	static Vector2 screenDimensions = new Vector2(width,height);
 	static Vector2 mapSizePixels = new Vector2(tileSize*mapX,tileSize*mapY);
 	static Food[][] food = new Food[mapX][mapY];
-
+	
+    
+    
 	public static void main(String[] args) {
 		
 		int[][][] map = new int[mapX][mapY][2];	
@@ -34,6 +38,8 @@ public class Main {
 		Graphics g = frame.getGraphics();
 		KeyHandler keyH = new KeyHandler(); // create key handler form class
 		frame.addKeyListener(keyH); //add key handler
+		
+		
 		
 		Camera2D camera = new Camera2D(screenDimensions.multiplyC(0.5),screenDimensions,mapSizePixels); // create camera mid-screen frame dimensions
 		Player player = new Player(new Vector2(144,144),tileSize,mapX,mapY);//create player at 16,16
@@ -50,7 +56,9 @@ public class Main {
 		
 		player.loadAnimations();
 
+		HUD hud = new HUD();
 		while (true) {
+		    Graphics2D g2 = (Graphics2D) image.getGraphics();
 			
 		    camera.followPlayer(player);
 		    player.move(keyH);
@@ -59,11 +67,18 @@ public class Main {
 		    camera.renderMap(image, tiles, map);
 		    camera.renderPlayer(image, player);
 		    camera.renderFood(image, food);
-		    g.drawImage(image,0,0,null);
+		
 		    
+
+		    
+		    hud.draw(g2, player);
+
+		    // 6️⃣ Dërgo rezultatin në JFrame
+		    g.drawImage(image, 0, 0, null);
+
 		}
 	}
-	
+		
 	public static JFrame initiateFrame(int width,int height) {
 		JFrame frame = new JFrame("Loja2D");
 		frame.setSize(width, height);
