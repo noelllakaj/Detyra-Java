@@ -11,9 +11,9 @@ public class HUD {
 
     private BufferedImage heartFull, heartHalf, heartBlank;
 
-    private int heartSize = 24;    // madhësia e zemrës
-    private int heartSpacing = 5;  // distanca ndërmjet zemrave
-
+    private int heartSize = 24;    
+    private int heartSpacing = 5;  
+    
     public HUD() {
         try {
             heartFull  = ImageIO.read(getClass().getResourceAsStream("/hud/heart_full.png"));
@@ -26,20 +26,17 @@ public class HUD {
 
     public void draw(Graphics2D g2, Player player) {
 
-        int x = 40; // pozicioni fillestar horizontal
-        int y = 40; // pozicioni fillestar vertikal
+        int x = 40; 
+        int y = 40; 
 
-        // Llogarit gjatësinë e background bazuar në numrin e zemrave
         int heartBackgroundWidth = player.maxHealth * heartSize + (player.maxHealth - 1) * heartSpacing + 10;
         int heartBackgroundHeight = heartSize + 10;
 
-        // Vizato background-in
         g2.setColor(Color.DARK_GRAY);
         g2.fillRect(x - 5, y - 5, heartBackgroundWidth, heartBackgroundHeight);
         g2.setColor(Color.WHITE);
         g2.drawRect(x - 5, y - 5, heartBackgroundWidth, heartBackgroundHeight);
 
-        // Vizato zemrat
         for (int i = 0; i < player.maxHealth; i++) {
             if (player.health >= i + 1) {
                 g2.drawImage(heartFull, x + i * (heartSize + heartSpacing), y, heartSize, heartSize, null);

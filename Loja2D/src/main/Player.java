@@ -14,8 +14,8 @@ public class Player extends Entity{
 	boolean[][] obstacles;
 	Food[] foodInv = new Food[5];
 	
-	public int maxHealth = 5;   // maksimumi i zemrave
-	public double health = 5;   // fillon plot
+	public int maxHealth = 5;   
+	public double health = 5;  
 
 	
 	public Player(Vector2 position,int tileSize,int mapX,int mapY) {

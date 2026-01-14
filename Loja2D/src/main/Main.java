@@ -69,11 +69,8 @@ public class Main {
 		    camera.renderFood(image, food);
 		
 		    
-
-		    
 		    hud.draw(g2, player);
-
-		    // 6️⃣ Dërgo rezultatin në JFrame
+		    
 		    g.drawImage(image, 0, 0, null);
 
 		}
